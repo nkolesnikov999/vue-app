@@ -6,3 +6,5 @@ Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://
 
 # Install ESLint
 npm install -D eslint eslint-plugin-vue @vue/eslint-config-prettier
+
+

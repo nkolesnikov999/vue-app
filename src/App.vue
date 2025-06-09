@@ -1,18 +1,19 @@
 <script setup>
-const color = 'red';
-const id = "blue";
+import { ref } from 'vue'
+
+const now = ref(new Date().toLocaleDateString('ru-RU', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+}))
 </script>
 
 <template>
-  <header :class="`color-${id}`">
-    <h1>My App</h1>
-  </header>
-  <main :class="color">
-    <h2>Welcome to My App</h2>
+
+  <main>
+    <p>Сегодня: {{ now }}</p>
   </main>
-  <footer>
-    <p>Copyright 2025</p>
-  </footer>
+
 </template>
 
 <style scoped>
