@@ -12,9 +12,9 @@
   border-radius: 100px;
   background: #008BFE;
   padding: 16px 10px 16px 16px;
-  font-family: var(--font);
-  font-size: 20px;
-  font-weight: 600;
+  font-family: var(--first-font);
+  font-size: 24px;
+  font-weight: 400;
   color: var(--color-primary);
   cursor: pointer;
   height: 68px;
