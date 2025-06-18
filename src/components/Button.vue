@@ -10,12 +10,14 @@
 .button {
   border: none;
   border-radius: 100px;
-  background: #008BFE;
-  padding: 16px 10px 16px 16px;
-  font-family: var(--first-font);
+  background: #008bfe;
+  padding: 16px 10px;
+  font-family: var(--font-family);
   font-size: 24px;
   font-weight: 400;
-  color: var(--color-primary);
+  line-height: 150%;
+  text-align: center;
+  color: #fff;
   cursor: pointer;
   height: 68px;
   display: flex;
