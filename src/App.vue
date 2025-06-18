@@ -19,8 +19,9 @@ const handleCardStatusChange = (status) => {
     </div>
     <div class="content">
       <Card 
-        number="01"
-        word="unadmitted"
+        number="02"
+        word="armour-piercer"
+        translation="бронебойный"
         @flip="handleCardFlip"
         @statusChange="handleCardStatusChange"
       />
