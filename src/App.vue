@@ -1,6 +1,9 @@
 <script setup>
+import { ref } from 'vue'
 import Card from './components/Card.vue'
 import Score from './components/Score.vue'
+
+const score = ref(0)
 
 const handleCardFlip = (isFlipped) => {
   console.log('Card flipped:', isFlipped)
@@ -15,7 +18,7 @@ const handleCardStatusChange = (status) => {
   <main class="main">
     <div class="header">
       ЗАПОМНИ СЛОВО
-      <Score score="99" />
+      <Score :score="score" />
     </div>
     <div class="content">
       <Card 

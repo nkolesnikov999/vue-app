@@ -22,38 +22,46 @@ const props = defineProps({
 
 const emit = defineEmits(['flip', 'statusChange'])
 
-const isCardFlipped = ref(props.isFlipped)
+const word = ref(props.word)
+const translation = ref(props.translation)
+const state = ref(props.isFlipped ? 'opened' : 'closed')
+const status = ref('pending')
 
 const handleCardClick = () => {
-  if (!isCardFlipped.value) {
-    isCardFlipped.value = true
-    emit('flip', isCardFlipped.value)
+  if (state.value === 'closed') {
+    state.value = 'opened'
+    emit('flip', state.value)
   }
 }
 
 const handleStatusChange = (result) => {
+  if (result === 'correct') {
+    status.value = 'success'
+  } else if (result === 'wrong') {
+    status.value = 'fail'
+  }
   emit('statusChange', result)
 }
 </script>
 
 <template>
-  <div class="card" :class="{ 'card--flipped': isCardFlipped }">
+  <div class="card" :class="{ 'card--flipped': state === 'opened' }">
     <div class="card-number">{{ number }}</div>
     
     <div class="card-content">
-      <div class="card-face card-face--front" v-show="!isCardFlipped">
+      <div class="card-face card-face--front" v-show="state === 'closed'">
         <div class="word">{{ word }}</div>
       </div>
-      <div class="card-face card-face--back" v-show="isCardFlipped">
+      <div class="card-face card-face--back" v-show="state === 'opened'">
         <div class="translation">{{ translation }}</div>
       </div>
     </div>
     
-    <div class="card-bottom" v-show="!isCardFlipped">
+    <div class="card-bottom" v-show="state === 'closed'">
       <button class="flip-btn" @click="handleCardClick">ПЕРЕВЕРНУТЬ</button>
     </div>
     
-    <div class="card-result-buttons" v-show="isCardFlipped">
+    <div class="card-result-buttons" v-show="state === 'opened'">
       <button class="result-btn result-btn--wrong" @click.stop="handleStatusChange('wrong')">
         ✕
       </button>
