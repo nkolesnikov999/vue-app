@@ -22,8 +22,6 @@ const props = defineProps({
 
 const emit = defineEmits(['flip', 'statusChange'])
 
-const word = ref(props.word)
-const translation = ref(props.translation)
 const state = ref(props.isFlipped ? 'opened' : 'closed')
 const status = ref('pending')
 
