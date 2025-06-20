@@ -5,18 +5,58 @@ import Score from './components/Score.vue'
 
 const score = ref(0)
 
-const currentCard = ref({
-  number: "02",
-  word: "armour-piercer",
-  translation: "бронебойный"
-})
+const cards = ref([
+  {
+    id: 1,
+    number: "01",
+    word: "armour-piercer",
+    translation: "бронебойный",
+    isFlipped: false,
+    status: 'pending'
+  },
+  {
+    id: 2,
+    number: "02", 
+    word: "dust-coat",
+    translation: "пыльник",
+    isFlipped: false,
+    status: 'pending'
+  },
+  {
+    id: 3,
+    number: "03",
+    word: "unadmitted",
+    translation: "неподтвержденный",
+    isFlipped: false,
+    status: 'pending'
+  },
+  {
+    id: 4,
+    number: "04",
+    word: "караван верблюдов",
+    translation: "camel caravan",
+    isFlipped: false,
+    status: 'pending'
+  }
+])
 
-const handleCardFlip = (isFlipped) => {
-  console.log('Card flipped:', isFlipped)
+const handleCardFlip = (cardId, isFlipped) => {
+  const card = cards.value.find(c => c.id === cardId)
+  if (card) {
+    card.isFlipped = isFlipped === 'opened'
+  }
+  console.log('Card flipped:', cardId, isFlipped)
 }
 
-const handleCardStatusChange = (status) => {
-  console.log('Card status changed:', status)
+const handleCardStatusChange = (cardId, status) => {
+  const card = cards.value.find(c => c.id === cardId)
+  if (card) {
+    card.status = status === 'correct' ? 'success' : 'fail'
+    if (status === 'correct') {
+      score.value += 1
+    }
+  }
+  console.log('Card status changed:', cardId, status)
 }
 </script>
 
@@ -27,13 +67,18 @@ const handleCardStatusChange = (status) => {
       <Score :score="score" />
     </div>
     <div class="content">
-      <Card 
-        :number="currentCard.number"
-        :word="currentCard.word"
-        :translation="currentCard.translation"
-        @flip="handleCardFlip"
-        @statusChange="handleCardStatusChange"
-      />
+      <div class="cards-grid">
+        <Card 
+          v-for="card in cards"
+          :key="card.id"
+          :number="card.number"
+          :word="card.word"
+          :translation="card.translation"
+          :isFlipped="card.isFlipped"
+          @flip="(state) => handleCardFlip(card.id, state)"
+          @statusChange="(status) => handleCardStatusChange(card.id, status)"
+        />
+      </div>
     </div>
   </main>
 </template>
@@ -65,5 +110,14 @@ const handleCardStatusChange = (status) => {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 40px;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  max-width: 1200px;
+  width: 100%;
 }
 </style>
