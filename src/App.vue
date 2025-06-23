@@ -1,44 +1,49 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import Card from './components/Card.vue'
 import Score from './components/Score.vue'
 
 const score = ref(0)
+const cards = ref([])
 
-const cards = ref([
-  {
-    id: 1,
-    number: "01",
-    word: "armour-piercer",
-    translation: "бронебойный",
-    isFlipped: false,
-    status: 'pending'
-  },
-  {
-    id: 2,
-    number: "02", 
-    word: "dust-coat",
-    translation: "пыльник",
-    isFlipped: false,
-    status: 'pending'
-  },
-  {
-    id: 3,
-    number: "03",
-    word: "unadmitted",
-    translation: "неподтвержденный",
-    isFlipped: false,
-    status: 'pending'
-  },
-  {
-    id: 4,
-    number: "04",
-    word: "караван верблюдов",
-    translation: "camel caravan",
-    isFlipped: false,
-    status: 'pending'
+const loadWords = async () => {
+  try {
+    const response = await fetch('http://localhost:8080/api/random-words')
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+    const data = await response.json()
+    
+    // Берем первые 10 элементов или все, если меньше 10
+    const wordsToUse = data.slice(0, 10)
+    
+    cards.value = wordsToUse.map((item, index) => ({
+      id: index + 1,
+      number: String(index + 1).padStart(2, '0'),
+      word: item.word,
+      translation: item.translation,
+      isFlipped: false,
+      status: 'pending'
+    }))
+  } catch (error) {
+    console.error('Error loading words:', error)
+    // Fallback данные в случае ошибки
+    cards.value = [
+      {
+        id: 1,
+        number: "01",
+        word: "armour-piercer",
+        translation: "бронебойный",
+        isFlipped: false,
+        status: 'pending'
+      }
+    ]
   }
-])
+}
+
+onMounted(() => {
+  loadWords()
+})
 
 const handleCardFlip = (cardId, isFlipped) => {
   const card = cards.value.find(c => c.id === cardId)
@@ -86,13 +91,15 @@ const handleCardStatusChange = (cardId, status) => {
 <style scoped>
 .main {
   background: #F0F4F8;
-  width: 1440px;
-  height: 100vh;
+  min-height: 100vh;
+  width: 100vw;
+  min-width: 1400px;
   display: flex;
   flex-direction: column;
+  overflow-x: auto;
 }
 .header {
-  width: 1440px;
+  width: 100%;
   height: 121px;  
   font-family: var(--font-family);
   font-weight: 700;
@@ -104,20 +111,100 @@ const handleCardStatusChange = (cardId, status) => {
   align-items: center;
   justify-content: space-between;
   padding: 0 40px;
+  box-sizing: border-box;
 }
 .content {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 40px;
+  padding: 40px 100px;
+  box-sizing: border-box;
+  min-width: 1400px;
 }
 
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 32px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 24px;
   max-width: 1200px;
   width: 100%;
+  margin: 0 auto;
+}
+
+@media (max-width: 1500px) {
+  .main {
+    min-width: 1200px;
+  }
+  .content {
+    min-width: 1200px;
+  }
+  .cards-grid {
+    max-width: 1000px;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 1300px) {
+  .main {
+    min-width: 1000px;
+  }
+  .content {
+    min-width: 1000px;
+  }
+  .cards-grid {
+    max-width: 800px;
+    gap: 18px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .cards-grid {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 650px;
+    gap: 14px;
+  }
+  .content {
+    padding: 40px 100px;
+  }
+}
+
+@media (max-width: 850px) {
+  .cards-grid {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 550px;
+    gap: 12px;
+  }
+  .content {
+    padding: 30px 80px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 500px;
+    gap: 12px;
+  }
+  .content {
+    padding: 20px 60px;
+  }
+  .header {
+    padding: 0 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 300px;
+    gap: 10px;
+  }
+  .content {
+    padding: 20px 40px;
+  }
+  .header {
+    padding: 0 40px;
+  }
 }
 </style>
