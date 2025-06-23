@@ -127,9 +127,7 @@ const handleCardStatusChange = (cardId, status) => {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 24px;
-  max-width: 1200px;
   width: 100%;
-  margin: 0 auto;
 }
 
 @media (max-width: 1500px) {
@@ -140,7 +138,6 @@ const handleCardStatusChange = (cardId, status) => {
     min-width: 1200px;
   }
   .cards-grid {
-    max-width: 1000px;
     gap: 20px;
   }
 }
@@ -153,7 +150,6 @@ const handleCardStatusChange = (cardId, status) => {
     min-width: 1000px;
   }
   .cards-grid {
-    max-width: 800px;
     gap: 18px;
   }
 }
@@ -161,7 +157,6 @@ const handleCardStatusChange = (cardId, status) => {
 @media (max-width: 1024px) {
   .cards-grid {
     grid-template-columns: repeat(4, 1fr);
-    max-width: 650px;
     gap: 14px;
   }
   .content {
@@ -172,7 +167,6 @@ const handleCardStatusChange = (cardId, status) => {
 @media (max-width: 850px) {
   .cards-grid {
     grid-template-columns: repeat(4, 1fr);
-    max-width: 550px;
     gap: 12px;
   }
   .content {
@@ -183,7 +177,6 @@ const handleCardStatusChange = (cardId, status) => {
 @media (max-width: 768px) {
   .cards-grid {
     grid-template-columns: repeat(3, 1fr);
-    max-width: 500px;
     gap: 12px;
   }
   .content {
@@ -197,7 +190,6 @@ const handleCardStatusChange = (cardId, status) => {
 @media (max-width: 480px) {
   .cards-grid {
     grid-template-columns: repeat(2, 1fr);
-    max-width: 300px;
     gap: 10px;
   }
   .content {
