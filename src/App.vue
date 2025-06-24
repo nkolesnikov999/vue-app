@@ -58,10 +58,16 @@ const handleCardStatusChange = (cardId, status) => {
   if (card) {
     card.status = status === 'correct' ? 'success' : 'fail'
     if (status === 'correct') {
-      score.value += 1
+      score.value += 10
+    } else {
+      score.value -= 4
     }
   }
   console.log('Card status changed:', cardId, status)
+}
+
+const restartGame = async () => {
+  await loadWords()
 }
 </script>
 
@@ -75,7 +81,7 @@ const handleCardStatusChange = (cardId, status) => {
       <div class="cards-grid">
         <Card 
           v-for="card in cards"
-          :key="card.id"
+          :key="`${card.id}-${card.word}`"
           :number="card.number"
           :word="card.word"
           :translation="card.translation"
@@ -84,6 +90,11 @@ const handleCardStatusChange = (cardId, status) => {
           @statusChange="(status) => handleCardStatusChange(card.id, status)"
         />
       </div>
+    </div>
+    <div class="footer">
+      <button class="restart-button" @click="restartGame">
+        Начать заново
+      </button>
     </div>
   </main>
 </template>
@@ -128,6 +139,34 @@ const handleCardStatusChange = (cardId, status) => {
   grid-template-columns: repeat(5, 1fr);
   gap: 24px;
   width: 100%;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+}
+
+.restart-button {
+  background: #007AFF;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 32px;
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.restart-button:hover {
+  background: #0056CC;
+  transform: translateY(-2px);
+}
+
+.restart-button:active {
+  transform: translateY(0);
 }
 
 @media (max-width: 1500px) {
